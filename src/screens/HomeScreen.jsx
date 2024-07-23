@@ -1,19 +1,34 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, TouchableOpacity, Text, Alert } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Text,
+  Alert,
+} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
-export default function BMICalculator() {
+const HomeScreen = ({navigation}) => {
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
-  const [bmi, setBMI] = useState<number | null>(null);
-  const [showQR, setShowQR] = useState(false);
+  const [bmi, setBMI] = useState(null);
+  const [optimalWeight, setOptimalWeight] = useState();
+  const [fitness, setFitness] = useState('');
 
   const calculateBMI = () => {
     if (height && weight) {
       const heightInMeters = Number(height) / 100;
       const weightInKg = Number(weight);
       const bmiValue = weightInKg / (heightInMeters * heightInMeters);
+      const weightRange = [
+        (18.5 * heightInMeters * heightInMeters).toFixed(1),
+        (25 * heightInMeters * heightInMeters).toFixed(1),
+      ];
+      const catogery = 'Normal';
       setBMI(parseFloat(bmiValue.toFixed(2)));
+      setFitness(catogery);
+      setOptimalWeight(weightRange);
     } else {
       Alert.alert('Error', 'Please enter both height and weight.');
     }
@@ -21,7 +36,9 @@ export default function BMICalculator() {
 
   const handleGenerateQR = () => {
     if (height && weight && bmi) {
-      setShowQR(true);
+      // setShowQR(true);
+      const data = `Your BMI Data\n Height: ${height}\n Weight: ${weight}\n Body Mass Index(BMI): ${bmi}\n Fitness: ${fitness}\n Healthy weight for the height: ${optimalWeight[0]}kg - ${optimalWeight[1]}kg`; //{Height: height+' cm',Weight: weight+" kg", BMI: bmi, ""}
+      navigation.navigate('QRCode', {bmiData: data});
     } else {
       Alert.alert('Error', 'Please calculate BMI first.');
     }
@@ -30,8 +47,7 @@ export default function BMICalculator() {
   return (
     <LinearGradient
       colors={['#4c669f', '#3b5998', '#192f6a']}
-      style={styles.container}
-    >
+      style={styles.container}>
       <Text style={styles.title}>BMI Calculator</Text>
       <View style={styles.inputContainer}>
         <TextInput
@@ -40,7 +56,7 @@ export default function BMICalculator() {
           placeholderTextColor="#a0a0a0"
           keyboardType="numeric"
           value={height}
-          onChangeText={(text) => {
+          onChangeText={text => {
             setHeight(text);
             setBMI(null);
           }}
@@ -51,7 +67,7 @@ export default function BMICalculator() {
           placeholderTextColor="#a0a0a0"
           keyboardType="numeric"
           value={weight}
-          onChangeText={(text) => {
+          onChangeText={text => {
             setWeight(text);
             setBMI(null);
           }}
@@ -69,12 +85,16 @@ export default function BMICalculator() {
         <View style={styles.resultsContainer}>
           <Text style={styles.resultText}>Height: {height} cm</Text>
           <Text style={styles.resultText}>Weight: {weight} kg</Text>
+          <Text style={styles.resultText}>
+            Healthy Weight: {optimalWeight[0]} kg - {optimalWeight[1]} kg
+          </Text>
           <Text style={styles.bmiText}>BMI: {bmi}</Text>
+          <Text style={styles.bmiText}>Fitness: {fitness}</Text>
         </View>
       )}
     </LinearGradient>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -138,3 +158,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
+
+export default HomeScreen;

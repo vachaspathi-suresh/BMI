@@ -13,9 +13,27 @@ const App = () => {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{title: 'Welcome'}}
+          options={{
+            title: 'BMI',
+            headerStyle: {
+              backgroundColor: '#192f6a',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
         />
-        <Stack.Screen name="QRCode" component={QRScreen} />
+        <Stack.Screen name="QRCode" component={QRScreen} options={{
+            title: 'Share QR',
+            headerStyle: {
+              backgroundColor: '#192f6a',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
