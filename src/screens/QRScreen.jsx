@@ -5,7 +5,7 @@ import QRCode from 'react-native-qrcode-svg';
 import Share from 'react-native-share';
 
 const QRScreen = ({navigation, route}) => {
-  const [bmiData, setBmiData] = useState(route.params.bmiData);
+  const bmiData = route.params.bmiData;
   const [qrImage, setQRImage] = useState();
   const qrRef = useRef();
   useEffect(() => {

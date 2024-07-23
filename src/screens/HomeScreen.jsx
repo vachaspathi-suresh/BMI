@@ -25,7 +25,9 @@ const HomeScreen = ({navigation}) => {
         (18.5 * heightInMeters * heightInMeters).toFixed(1),
         (25 * heightInMeters * heightInMeters).toFixed(1),
       ];
+      /***************************************************** Determine the Fitness Category here ****************************************************************/
       const catogery = 'Normal';
+      /**********************************************************************************************************************************************************/
       setBMI(parseFloat(bmiValue.toFixed(2)));
       setFitness(catogery);
       setOptimalWeight(weightRange);
@@ -36,8 +38,7 @@ const HomeScreen = ({navigation}) => {
 
   const handleGenerateQR = () => {
     if (height && weight && bmi) {
-      // setShowQR(true);
-      const data = `Your BMI Data\n Height: ${height}\n Weight: ${weight}\n Body Mass Index(BMI): ${bmi}\n Fitness: ${fitness}\n Healthy weight for the height: ${optimalWeight[0]}kg - ${optimalWeight[1]}kg`; //{Height: height+' cm',Weight: weight+" kg", BMI: bmi, ""}
+      const data = `Your BMI Data\n Height: ${height}\n Weight: ${weight}\n Body Mass Index(BMI): ${bmi}\n Fitness: ${fitness}\n Healthy weight for the height: ${optimalWeight[0]}kg - ${optimalWeight[1]}kg`;
       navigation.navigate('QRCode', {bmiData: data});
     } else {
       Alert.alert('Error', 'Please calculate BMI first.');
